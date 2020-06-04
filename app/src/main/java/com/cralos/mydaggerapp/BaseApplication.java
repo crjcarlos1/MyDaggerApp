@@ -3,7 +3,7 @@ package com.cralos.mydaggerapp;
 import com.cralos.mydaggerapp.di.DaggerAppComponent;
 
 import dagger.android.AndroidInjector;
-import dagger.android.support.DaggerApplication;
+import dagger.android.support.DaggerApplication;    //para mas compatibilidad en versiones de android
 
 public class BaseApplication extends DaggerApplication {
 

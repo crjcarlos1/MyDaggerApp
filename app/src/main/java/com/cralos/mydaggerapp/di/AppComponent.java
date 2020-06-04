@@ -9,6 +9,10 @@ import dagger.Component;
 import dagger.android.AndroidInjector;
 import dagger.android.support.AndroidSupportInjectionModule;
 
+/**
+ *  Los componentes son los encargados de realizar los inject
+ */
+
 @Component(modules = {AndroidSupportInjectionModule.class})
 public interface AppComponent extends AndroidInjector<BaseApplication> {
 
