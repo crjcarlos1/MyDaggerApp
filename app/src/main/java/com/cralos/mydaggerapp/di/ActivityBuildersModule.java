@@ -16,9 +16,4 @@ public abstract class ActivityBuildersModule {      //usamos abstract cada que u
     @ContributesAndroidInjector
     abstract AuthActivity contributeAuthActivity();
 
-    @Provides
-    static String provideString() {
-        return "this is my string";
-    }
-
 }
