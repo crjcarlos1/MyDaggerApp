@@ -4,6 +4,8 @@ import android.app.Application;
 
 import com.cralos.mydaggerapp.BaseApplication;
 
+import javax.inject.Singleton;
+
 import dagger.BindsInstance;
 import dagger.Component;
 import dagger.android.AndroidInjector;
@@ -13,6 +15,7 @@ import dagger.android.support.AndroidSupportInjectionModule;
  *  Los componentes son los encargados de realizar los inject
  */
 
+@Singleton
 @Component(
         modules = {
                 AndroidSupportInjectionModule.class,
