@@ -3,7 +3,6 @@ package com.cralos.mydaggerapp.di;
 import com.cralos.mydaggerapp.AuthActivity;
 
 import dagger.Module;
-import dagger.Provides;
 import dagger.android.ContributesAndroidInjector;
 
 /**
