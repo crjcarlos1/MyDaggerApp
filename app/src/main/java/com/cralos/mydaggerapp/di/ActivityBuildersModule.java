@@ -1,6 +1,7 @@
 package com.cralos.mydaggerapp.di;
 
-import com.cralos.mydaggerapp.AuthActivity;
+import com.cralos.mydaggerapp.di.auth.AuthViewModelsModule;
+import com.cralos.mydaggerapp.ui.auth.AuthActivity;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -12,7 +13,9 @@ import dagger.android.ContributesAndroidInjector;
 @Module
 public abstract class ActivityBuildersModule {      //usamos abstract cada que utilicemos la notación @ContributesAndroidInjector
 
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(
+            modules = {AuthViewModelsModule.class}
+    )
     abstract AuthActivity contributeAuthActivity();
 
 }
