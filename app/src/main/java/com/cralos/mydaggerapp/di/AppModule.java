@@ -9,11 +9,17 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 import com.cralos.mydaggerapp.R;
+import com.cralos.mydaggerapp.utils.Constants;
+
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import okhttp3.OkHttpClient;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Aqui van todas las dependencias que se encuentran en todas las pantallas de nuestra app,
@@ -22,6 +28,19 @@ import dagger.Provides;
 
 @Module
 public class AppModule {
+
+    @Singleton
+    @Provides
+    static OkHttpClient providesClient() {
+        OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(45, TimeUnit.SECONDS).readTimeout(45, TimeUnit.SECONDS).build();
+        return okHttpClient;
+    }
+
+    @Singleton
+    @Provides
+    static Retrofit provideRetrofitInstance(OkHttpClient okHttpClient) {
+        return new Retrofit.Builder().baseUrl(Constants.BASE_URL).client(okHttpClient).addConverterFactory(GsonConverterFactory.create()).build();
+    }
 
     @Singleton
     @Provides
