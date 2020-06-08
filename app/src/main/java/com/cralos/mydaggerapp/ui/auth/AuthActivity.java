@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -28,6 +30,7 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
     private static final String TAG = "AuthActivity";
 
     private EditText userId;
+    private ProgressBar progressBar;
 
     @Inject
     ViewModelProviderFactory providerFactory;
@@ -45,6 +48,7 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auth);
         userId = findViewById(R.id.user_id_input);
+        progressBar = findViewById(R.id.progress_bar);
         (findViewById(R.id.login_button)).setOnClickListener(this);
         viewModel = ViewModelProviders.of(this, providerFactory).get(AuthViewModel.class);
         setLogo();
@@ -53,8 +57,7 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
 
     @Override
     public void onClick(View v) {
-        switch (v.getId())
-        {
+        switch (v.getId()) {
             case R.id.login_button:
                 attempLogin();
                 break;
@@ -62,22 +65,49 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
     }
 
     private void attempLogin() {
-        if (TextUtils.isEmpty(userId.getText().toString())){
+        if (TextUtils.isEmpty(userId.getText().toString())) {
             return;
         }
         viewModel.authenticateWithId(Integer.parseInt(userId.getText().toString()));
     }
 
-
     private void subscribeObservers() {
-        viewModel.observerUser().observe(this, new Observer<User>() {
+        viewModel.observerUser().observe(this, new Observer<AuthResource<User>>() {
             @Override
-            public void onChanged(User user) {
-                if (user!=null){
-                    Log.e(TAG, "onChanged: "+user.toString());
+            public void onChanged(AuthResource<User> userAuthResource) {
+                if (userAuthResource != null) {
+                    switch (userAuthResource.status) {
+                        case ERROR: {
+                            showProgressBar(false);
+                            Toast.makeText(getApplicationContext(), userAuthResource.message + " \n did you enter a number between 1 and 10", Toast.LENGTH_SHORT).show();
+                            break;
+                        }
+                        case LOADING: {
+                            showProgressBar(true);
+                            break;
+                        }
+                        case AUTHENTICATE: {
+                            showProgressBar(false);
+                            Log.e(TAG, "onChanged: " + userAuthResource.data.toString());
+                            break;
+                        }
+                        case NOT_AUTHENTICATE: {
+                            showProgressBar(false);
+
+                            break;
+                        }
+                    }
                 }
             }
         });
+    }
+
+    private void showProgressBar(boolean isVisible) {
+        if (isVisible) {
+            progressBar.setVisibility(View.VISIBLE);
+        } else {
+            progressBar.setVisibility(View.GONE);
+        }
     }
 
     private void setLogo() {
