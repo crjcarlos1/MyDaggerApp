@@ -4,9 +4,14 @@ import android.util.Log;
 
 import androidx.lifecycle.ViewModel;
 
+import com.cralos.mydaggerapp.models.User;
 import com.cralos.mydaggerapp.network.auth.AuthApi;
 
 import javax.inject.Inject;
+
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class AuthViewModel extends ViewModel {
 
@@ -22,7 +27,31 @@ public class AuthViewModel extends ViewModel {
     public AuthViewModel(AuthApi authApi) {
         Log.e(TAG, "AuthViewModel is working ...");
         this.authApi = authApi;
-        if (this.authApi == null) Log.e(TAG, "AuthApi es NULL");
-        else Log.e(TAG, "AuthApi NO es null");
+
+        authApi.getUser(1)
+                .toObservable()
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Observer<User>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(User value) {
+                        Log.e(TAG, "user: "+value.toString() );
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, "onError: "+e.getMessage() );
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+
     }
 }
