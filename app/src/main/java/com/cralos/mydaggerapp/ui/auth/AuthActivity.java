@@ -1,5 +1,6 @@
 package com.cralos.mydaggerapp.ui.auth;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -16,6 +17,7 @@ import androidx.lifecycle.ViewModelProviders;
 import com.bumptech.glide.RequestManager;
 import com.cralos.mydaggerapp.R;
 import com.cralos.mydaggerapp.models.User;
+import com.cralos.mydaggerapp.ui.main.MainActivity;
 import com.cralos.mydaggerapp.viewmodels.ViewModelProviderFactory;
 
 import javax.inject.Inject;
@@ -89,6 +91,7 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
                         case AUTHENTICATE: {
                             showProgressBar(false);
                             Log.e(TAG, "onChanged: " + userAuthResource.data.toString());
+                            onLoginSuccess();
                             break;
                         }
                         case NOT_AUTHENTICATE: {
@@ -100,6 +103,12 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
                 }
             }
         });
+    }
+
+    private void onLoginSuccess() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private void showProgressBar(boolean isVisible) {
