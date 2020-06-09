@@ -3,11 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:text="dlkgñdkñlg"
-        android:textSize="55dp"
-        android:textColor="@android:color/black"
-        android:gravity="center"
+    <FrameLayout
+        android:id="@+id/mainContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

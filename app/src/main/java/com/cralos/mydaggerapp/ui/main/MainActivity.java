@@ -8,9 +8,12 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.cralos.mydaggerapp.BaseActivity;
 import com.cralos.mydaggerapp.R;
+import com.cralos.mydaggerapp.ui.main.profile.ProfileFragment;
 
 public class MainActivity extends BaseActivity {
 
@@ -21,6 +24,7 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toast.makeText(getApplicationContext(), "MainActivity", Toast.LENGTH_SHORT).show();
+        testFragment();
     }
 
     @Override
@@ -40,4 +44,12 @@ public class MainActivity extends BaseActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private void testFragment() {
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.add(R.id.mainContainer, new ProfileFragment());
+        transaction.commit();
+    }
+
 }
