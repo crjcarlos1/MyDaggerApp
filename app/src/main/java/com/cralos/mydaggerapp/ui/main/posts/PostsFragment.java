@@ -10,11 +10,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cralos.mydaggerapp.R;
 import com.cralos.mydaggerapp.models.Post;
 import com.cralos.mydaggerapp.ui.main.Resource;
+import com.cralos.mydaggerapp.utils.VerticalSpaceItemDecoration;
 import com.cralos.mydaggerapp.viewmodels.ViewModelProviderFactory;
 
 import java.util.List;
@@ -30,6 +32,9 @@ public class PostsFragment extends DaggerFragment {
     private RecyclerView recyclerView;
 
     @Inject
+    PostsRecyclerAdapter adapter;
+
+    @Inject
     ViewModelProviderFactory providerFactory;
 
     @Nullable
@@ -40,21 +45,43 @@ public class PostsFragment extends DaggerFragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        recyclerView=view.findViewById(R.id.recycler_view);
+        recyclerView = view.findViewById(R.id.recycler_view);
         viewModel = ViewModelProviders.of(this, providerFactory).get(PostsViewModel.class);
+        initRecyclerView();
         subscribeObservers();
     }
 
-    private void subscribeObservers(){
+    private void subscribeObservers() {
         viewModel.observePost().removeObservers(getViewLifecycleOwner());
         viewModel.observePost().observe(getViewLifecycleOwner(), new Observer<Resource<List<Post>>>() {
             @Override
             public void onChanged(Resource<List<Post>> listResource) {
-                if (listResource!=null){
-                    Log.e(TAG, "onChanged: ELEMENTOS EN LA LISTA: "+listResource.data);
+                if (listResource != null) {
+                    switch (listResource.status){
+                        case LOADING:{
+                            Log.e(TAG, "onChanged: LOADING ...");
+                            break;
+                        }
+                        case ERROR:{
+                            Log.e(TAG, "onChanged: ERROR..."+listResource.message);
+                            break;
+                        }
+                        case SUCCESS:{
+                            Log.e(TAG, "onChanged: SUCCESS ...");
+                            Log.e(TAG, "onChanged: data"+listResource.data);
+                            break;
+                        }
+                    }
                 }
             }
         });
+    }
+
+    private void initRecyclerView(){
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        VerticalSpaceItemDecoration decoration=new VerticalSpaceItemDecoration(15);
+        recyclerView.addItemDecoration(decoration);
+        recyclerView.setAdapter(adapter);
     }
 
 }
