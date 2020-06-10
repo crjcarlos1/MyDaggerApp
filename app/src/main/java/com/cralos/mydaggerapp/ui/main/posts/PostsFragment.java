@@ -69,6 +69,7 @@ public class PostsFragment extends DaggerFragment {
                         case SUCCESS:{
                             Log.e(TAG, "onChanged: SUCCESS ...");
                             Log.e(TAG, "onChanged: data"+listResource.data);
+                            adapter.setPosts(listResource.data);
                             break;
                         }
                     }
