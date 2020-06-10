@@ -1,5 +1,6 @@
 package com.cralos.mydaggerapp.di.main;
 
+import com.cralos.mydaggerapp.ui.main.posts.PostsFragment;
 import com.cralos.mydaggerapp.ui.main.profile.ProfileFragment;
 
 import dagger.Module;
@@ -13,4 +14,7 @@ public abstract class MainFragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract ProfileFragment contributeProfileFragment();
+
+    @ContributesAndroidInjector
+    abstract PostsFragment contributePostsFragment();
 }

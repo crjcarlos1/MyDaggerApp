@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.cralos.mydaggerapp.BaseActivity;
 import com.cralos.mydaggerapp.R;
+import com.cralos.mydaggerapp.ui.main.posts.PostsFragment;
 import com.cralos.mydaggerapp.ui.main.profile.ProfileFragment;
 
 public class MainActivity extends BaseActivity {
@@ -46,7 +47,7 @@ public class MainActivity extends BaseActivity {
     private void testFragment() {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
-        transaction.add(R.id.mainContainer, new ProfileFragment());
+        transaction.add(R.id.mainContainer, new PostsFragment());
         transaction.commit();
     }
 
